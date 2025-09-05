@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="ga" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <filter id="blurA" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#ga)"/>
+  <circle cx="250" cy="250" r="180" fill="#34d399" opacity="0.25" filter="url(#blurA)"/>
+  <circle cx="1350" cy="700" r="220" fill="#60a5fa" opacity="0.25" filter="url(#blurA)"/>
+  <g transform="translate(240,160)">
+    <rect width="1120" height="600" rx="24" fill="white" opacity="0.9"/>
+    <!-- axes -->
+    <g stroke="#cbd5e1" stroke-width="2">
+      <line x1="80" y1="520" x2="1000" y2="520"/>
+      <line x1="80" y1="120" x2="80" y2="520"/>
+    </g>
+    <!-- bars -->
+    <g>
+      <rect x="140" y="360" width="60" height="160" fill="#6366f1"/>
+      <rect x="260" y="300" width="60" height="220" fill="#22d3ee"/>
+      <rect x="380" y="220" width="60" height="300" fill="#10b981"/>
+      <rect x="500" y="280" width="60" height="240" fill="#f59e0b"/>
+      <rect x="620" y="150" width="60" height="370" fill="#ef4444"/>
+      <rect x="740" y="180" width="60" height="340" fill="#a78bfa"/>
+      <rect x="860" y="240" width="60" height="280" fill="#06b6d4"/>
+    </g>
+    <!-- line -->
+    <polyline fill="none" stroke="#111827" stroke-width="3"
+      points="140,420 260,380 380,280 500,320 620,210 740,250 860,300"/>
+  </g>
+</svg>

@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(STUDENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  createdExams    Exam[]
+  submissions     Submission[]
+
+  @@map("users")
+}
+
+model Exam {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  duration    Int      // Duration in minutes
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String
+
+  // Relations
+  createdBy   User         @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  questions   Question[]
+  submissions Submission[]
+
+  @@map("exams")
+}
+
+model Question {
+  id           String   @id @default(cuid())
+  examId       String
+  questionText String
+  options      Json     // Array of options
+  correctAnswer Int     // Index of correct answer
+  points       Int      @default(1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  exam Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
+
+  @@map("questions")
+}
+
+model Submission {
+  id        String   @id @default(cuid())
+  examId    String
+  userId    String
+  answers   Json     // Object with questionId as key and selected answer as value
+  score     Int      @default(0)
+  totalScore Int     @default(0)
+  completedAt DateTime @default(now())
+  timeSpent Int      // Time spent in minutes
+
+  // Relations
+  exam Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, userId])
+  @@map("submissions")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
