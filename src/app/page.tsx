@@ -276,7 +276,7 @@ const TechCompany6 = () => (
 )
 
 // Enhanced Company Logo Component with generic logos
-const CompanyLogoWithSVG = ({ name, LogoComponent, bgColor = "bg-gray-50" }) => (
+const CompanyLogoWithSVG = ({ name, LogoComponent, bgColor = "bg-gray-50" }: { name: string; LogoComponent: React.ComponentType; bgColor?: string }) => (
   <div className={`flex flex-col items-center justify-center p-6 ${bgColor} rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group min-h-[140px]`}>
     <div className="w-16 h-16 mb-3 group-hover:scale-110 transition-transform duration-300">
       <LogoComponent />
@@ -337,7 +337,7 @@ const DashboardHeroSVG = () => (
 )
 
 // FAQ Component
-const FAQItem = ({ question, answer, isOpen, onToggle }) => (
+const FAQItem = ({ question, answer, isOpen, onToggle }: { question: string; answer: string; isOpen: boolean; onToggle: () => void }) => (
   <div className="bg-white rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-100">
     <button 
       onClick={onToggle}
@@ -360,7 +360,7 @@ export default function Home() {
   const [isVisible, setIsVisible] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showChatBot, setShowChatBot] = useState(false)
-  const [openFAQ, setOpenFAQ] = useState(null)
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null)
 
   useEffect(() => {
     if (!loading && user) {
