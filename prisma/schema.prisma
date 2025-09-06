@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String   @unique
   password  String
@@ -22,31 +22,27 @@ model User {
   // Relations
   createdExams    Exam[]
   submissions     Submission[]
-
-  @@map("users")
 }
 
 model Exam {
-  id          String   @id @default(cuid())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   duration    Int      // Duration in minutes
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdById String
+  createdById String   @db.ObjectId
 
   // Relations
-  createdBy   User         @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdBy   User         @relation(fields: [createdById], references: [id])
   questions   Question[]
   submissions Submission[]
-
-  @@map("exams")
 }
 
 model Question {
-  id           String   @id @default(cuid())
-  examId       String
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  examId       String   @db.ObjectId
   questionText String
   options      Json     // Array of options
   correctAnswer Int     // Index of correct answer
@@ -55,15 +51,13 @@ model Question {
   updatedAt    DateTime @updatedAt
 
   // Relations
-  exam Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
-
-  @@map("questions")
+  exam Exam @relation(fields: [examId], references: [id])
 }
 
 model Submission {
-  id        String   @id @default(cuid())
-  examId    String
-  userId    String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  examId    String   @db.ObjectId
+  userId    String   @db.ObjectId
   answers   Json     // Object with questionId as key and selected answer as value
   score     Int      @default(0)
   totalScore Int     @default(0)
@@ -71,11 +65,10 @@ model Submission {
   timeSpent Int      // Time spent in minutes
 
   // Relations
-  exam Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exam Exam @relation(fields: [examId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   @@unique([examId, userId])
-  @@map("submissions")
 }
 
 enum Role {

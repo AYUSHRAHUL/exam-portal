@@ -43,11 +43,8 @@ async function main() {
   })
 
   // Create sample exam
-  const exam = await prisma.exam.upsert({
-    where: { id: 'sample-exam-1' },
-    update: {},
-    create: {
-      id: 'sample-exam-1',
+  const exam = await prisma.exam.create({
+    data: {
       title: 'JavaScript Fundamentals',
       description: 'Test your knowledge of JavaScript basics including variables, functions, and objects.',
       duration: 30,
@@ -128,11 +125,8 @@ async function main() {
   }
 
   // Create another exam
-  const exam2 = await prisma.exam.upsert({
-    where: { id: 'sample-exam-2' },
-    update: {},
-    create: {
-      id: 'sample-exam-2',
+  const exam2 = await prisma.exam.create({
+    data: {
       title: 'React Basics',
       description: 'Test your understanding of React fundamentals including components, props, and state.',
       duration: 45,
